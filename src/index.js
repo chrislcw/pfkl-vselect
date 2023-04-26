@@ -5,7 +5,12 @@ $(function () {
   console.log("Ready");
 
   $('#my-select').vSelect({
-    'onChange': function(option) { 
-    }
+    checkAllLabel: 'Select all',
   });
+  $('#your-select').vSelect({
+    checkAll: false,
+    placeholder: 'Select something',
+    expanded: false,
+  });
+
 });

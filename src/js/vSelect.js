@@ -89,7 +89,7 @@ $.fn.vSelect = function(s) {
       const elm = $(this);
       const checked = elm.is(":checked");
 
-      $('.vselect-option input[type=checkbox]').prop('checked', checked);
+      vSelectElm.find('.vselect-option input[type=checkbox]').prop('checked', checked);
       selectElm.find('option').prop("selected", checked);
     });
   }
@@ -164,10 +164,10 @@ $.fn.vSelect = function(s) {
 
     if (toggleElm.hasClass('active')) {
       toggleElm.removeClass('active');
-      $('.vselect-option-child.'+groupId).hide();
+      vSelectElm.find('.vselect-option-child.'+groupId).hide();
     } else {
       toggleElm.addClass('active');
-      $('.vselect-option-child.'+groupId).show();
+      vSelectElm.find('.vselect-option-child.'+groupId).show();
     }
   });
 
@@ -218,7 +218,7 @@ $.fn.vSelect = function(s) {
 
   function isAllChildChecked(cbElm) {
     const groupId = cbElm.data('group-id');
-    const groundChilds = $('.vselect-option-child.' + groupId + ' input[type=checkbox]');
+    const groundChilds = vSelectElm.find('.vselect-option-child.' + groupId + ' input[type=checkbox]');
 
     let allChecked = true;
 
@@ -233,31 +233,27 @@ $.fn.vSelect = function(s) {
     });
 
     if (allChecked) {
-      $('#vselect-group-'+groupId).prop("checked", true);
+      vSelectElm.find('#vselect-group-'+groupId).prop("checked", true);
     } else {
-      $('#vselect-group-'+groupId).prop("checked", false);
+      vSelectElm.find('#vselect-group-'+groupId).prop("checked", false);
     }
   }
 
   function checkUncheckAllChilds(cbElm, checked) {
     const groupId = cbElm.data('group-id');
 
-    console.log('groupId', groupId);
+    vSelectElm.find('.vselect-child-'+groupId).prop("checked", checked);
 
-    $('.vselect-child-'+groupId).prop("checked", checked);
-
-    $('.vselect-child-'+groupId).each(function() {
+    vSelectElm.find('.vselect-child-'+groupId).each(function() {
       const cElm = $(this);
       const val = cElm.val();
-
-      console.log('val', val);
 
       selectElm.find('option[value='+val+']').prop("selected", checked);
     });
   }
 
   function isAllOptionsChecked() {
-    const optionsCbElms = $('.vselect-option input[type=checkbox]');
+    const optionsCbElms = vSelectElm.find('.vselect-option input[type=checkbox]');
 
     let allChecked = true;
 
