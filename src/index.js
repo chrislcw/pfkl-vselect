@@ -8,9 +8,7 @@ $(function () {
     checkAllLabel: 'Select all',
   });
   $('#your-select').vSelect({
-    checkAll: false,
-    placeholder: 'Select something',
-    expanded: false,
+    multiSelect: false,
   });
 
 });

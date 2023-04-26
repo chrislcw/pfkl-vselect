@@ -503,7 +503,7 @@ video {
   .container {
     max-width: 1536px;
   }
-}.vselect-option.vselect-option-group{position:relative}.vselect-option.vselect-option-group .vselect-group-toggle{position:absolute;top:50%;right:0.5rem;transform:translateY(-50%)}.vselect-option.vselect-option-child{padding-left:1rem}
+}.vselect-container.single-select .vselect-option.vselect-option-solo label,.vselect-container.single-select .vselect-option.vselect-option-child label{display:block;width:100%}.vselect-container.single-select .vselect-option.vselect-option-solo label:hover,.vselect-container.single-select .vselect-option.vselect-option-child label:hover{background-color:#00ccff11}.vselect-container.single-select .vselect-option.vselect-option-solo label.active:hover,.vselect-container.single-select .vselect-option.vselect-option-child label.active:hover{background-color:#fc0}.vselect-option.vselect-option-group{position:relative}.vselect-option.vselect-option-group .vselect-group-toggle{position:absolute;top:50%;right:0.5rem;transform:translateY(-50%)}.vselect-option.vselect-option-child{padding-left:1rem}.vselect-option label.active{background-color:#fc0}
 
 
 /*# sourceMappingURL=main.css.map*/

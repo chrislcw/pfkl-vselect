@@ -5,7 +5,7 @@ $.fn.vSelect = function(s) {
 
   // Default settings
   let settings = {
-    multiSelect: false,
+    multiSelect: true,
     placeholder: 'Please select',
     checkAll: true,
     checkAllLabel: 'All',
@@ -68,7 +68,7 @@ $.fn.vSelect = function(s) {
   // Create vSelect element
   const vSelectElm = $('<div></div>').insertAfter(selectElm);
   // Add a container class
-  vSelectElm.addClass('vselect-container');
+  vSelectElm.addClass('vselect-container ' + (settings.multiSelect ? 'multi-select' : 'single-select'));
   // Add a random id
   vSelectElm.attr('id', 'vselect'+randomId);
   // Append a div to display selected options
@@ -116,13 +116,27 @@ $.fn.vSelect = function(s) {
       optElm.find('input[type=checkbox]').attr('data-group-id', group);
       optElm.find('input[type=checkbox]').addClass('vselect-child-'+group);
     }
+
+    if (!settings.multiSelect) {
+      optElm.find('input[type=checkbox]').hide();
+    }
   }
 
   // Append checkbox for an optgroup
   function addOptgroup(item, index, group) {
-    const ogElm = $('<div><input type="checkbox" id="vselect-group-'+group+'" data-group-id="'+group+'" data-index="'+index+'"><label for="vselect-group-'+group+'">'+item.label+'</label><div data-group-id="'+group+'" class="vselect-group-toggle"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="#202020" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>');
+    let ogElm;
 
-    vSelectTray.append(ogElm);
+    if (settings.multiSelect) {
+      ogElm = $('<div><input type="checkbox" id="vselect-group-'+group+'" data-group-id="'+group+'" data-index="'+index+'"><label for="vselect-group-'+group+'">'+item.label+'</label><div data-group-id="'+group+'" class="vselect-group-toggle"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="#202020" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>');
+
+      vSelectTray.append(ogElm);
+
+      ogElm.find('input[type=checkbox]').attr('data-type', 'group');
+    } else {
+      ogElm = $('<div><label class="vselect-group-label">'+item.label+'</label><div data-group-id="'+group+'" class="vselect-group-toggle"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="#202020" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>');
+
+      vSelectTray.append(ogElm);
+    }
 
     ogElm.addClass('vselect-option');
     ogElm.addClass('vselect-option-group');
@@ -130,8 +144,6 @@ $.fn.vSelect = function(s) {
     if (settings.expanded) {
       ogElm.find('.vselect-group-toggle').addClass('active');
     }
-
-    ogElm.find('input[type=checkbox]').attr('data-type', 'group');
   }
 
   // Loop options to append all checkboxes
@@ -173,7 +185,6 @@ $.fn.vSelect = function(s) {
 
   // Checkbox on change handler
   vSelectOptions.find('input[type=checkbox]').on('change', function(){
-    console.log('AAA');
     const cbElm = $(this);
     const checked = cbElm.is(":checked");
     const type = cbElm.data('type');
@@ -188,34 +199,54 @@ $.fn.vSelect = function(s) {
       data = options[index];
     }
 
-    console.log('A data', data);
     data.checked = checked;
+
+    // If not multiSelect, uncheck all other options
+    if (!settings.multiSelect) {
+      vSelectOptions.find('input[type=checkbox]').not(cbElm).each(function(){
+        $(this).prop('checked', false);
+      });
+      vSelectOptions.find('input[type=checkbox]').next().removeClass('active');
+      cbElm.next().addClass('active');
+    }
 
     switch (type) {
       case 'solo':
         updateSelectElm(data);
+
         break;
 
       case 'group':
         checkUncheckAllChilds(cbElm, checked);
+        
         break;
 
       case 'child':
         updateSelectElm(data);
-        isAllChildChecked(cbElm);
+
+        if (settings.multiSelect) {
+          isAllChildChecked(cbElm);
+        }
+
         break;
     }
-    
-    if(settings.checkAll) {
+
+    if (settings.multiSelect && settings.checkAll) {
       isAllOptionsChecked();
     }
   });
 
   // Update option of original Select element
   function updateSelectElm(data) {
+    // If not multiSelect, uncheck all other options
+    if (!settings.multiSelect && data.checked) {
+      selectElm.find('option').prop("selected", false);
+    }
+
     selectElm.find('option[value='+data.value+']').prop("selected", data.checked);
   }
 
+  // Check if is all children of the group is checked
   function isAllChildChecked(cbElm) {
     const groupId = cbElm.data('group-id');
     const groundChilds = vSelectElm.find('.vselect-option-child.' + groupId + ' input[type=checkbox]');
@@ -239,6 +270,7 @@ $.fn.vSelect = function(s) {
     }
   }
 
+  // Check or unchcked all children in the group
   function checkUncheckAllChilds(cbElm, checked) {
     const groupId = cbElm.data('group-id');
 
@@ -252,6 +284,7 @@ $.fn.vSelect = function(s) {
     });
   }
 
+  // Check if is every options is checked or unchecked
   function isAllOptionsChecked() {
     const optionsCbElms = vSelectElm.find('.vselect-option input[type=checkbox]');
 

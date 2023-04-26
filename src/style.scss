@@ -9,6 +9,26 @@
  * @see https://github.com/webpack-contrib/sass-loader#imports
  */
 
+.vselect-container {
+  &.single-select {
+    .vselect-option.vselect-option-solo,
+    .vselect-option.vselect-option-child {
+      label {
+        display: block;
+        width: 100%;
+
+        &:hover {
+          background-color: #00ccff11;
+        }
+
+        &.active:hover {
+          background-color: #fc0;
+        }
+      }
+    }
+  }
+}
+
 .vselect-option {
   &.vselect-option-group {
     position: relative;
@@ -23,5 +43,11 @@
 
   &.vselect-option-child {
     padding-left: 1rem;
+  }
+
+  label {
+    &.active {
+      background-color: #fc0;
+    }
   }
 }
