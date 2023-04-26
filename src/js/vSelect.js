@@ -80,7 +80,7 @@ $.fn.vSelect = function(s) {
   // Append options tray
   vSelectElm.append(vSelectTray);
 
-  if (settings.checkAll) {
+  if (settings.multiSelect && settings.checkAll) {
     checkAllElm = $('<div class="vselect-global"><input type="checkbox" id="vselect-global'+randomId+'" data-type="all"><label for="vselect-global'+randomId+'" class="" for="vselect-global">'+settings.checkAllLabel+'</label></div>');
     // Append Global checkbox (select all)
     vSelectTray.append(checkAllElm);
