@@ -9,6 +9,14 @@ $(function () {
   });
   $('#your-select').vSelect({
     multiSelect: false,
+    display: 'values',
   });
 
+  $('#btn1').on('click', function(){
+    console.log('v', $('#my-select').val());;
+  });
+
+  $('#btn2').on('click', function(){
+    console.log('v', $('#your-select').val());;
+  });
 });

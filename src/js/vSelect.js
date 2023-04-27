@@ -10,6 +10,7 @@ $.fn.vSelect = function(s) {
     checkAll: true,
     checkAllLabel: 'All',
     expanded: true,
+    display: 'sum', // sum, values
   };
 
   let checkAllElm;
@@ -65,6 +66,19 @@ $.fn.vSelect = function(s) {
 
   console.log('options', options);
 
+  // Reset all values in options to true or false
+  function resetOptionsVariable(checked) {
+    options.map((x, index) => {
+      if (x.type === 'option') {
+        x.checked = checked;
+      } else {
+        x.options.map((y, index) => {
+          y.checked = checked;
+        });
+      }
+    });
+  }
+
   // Create vSelect element
   const vSelectElm = $('<div></div>').insertAfter(selectElm);
   // Add a container class
@@ -72,7 +86,7 @@ $.fn.vSelect = function(s) {
   // Add a random id
   vSelectElm.attr('id', 'vselect'+randomId);
   // Append a div to display selected options
-  const vSelectDisplay = $('<div class="vselect-selected-display"><span class="vselect-placeholder">'+settings.placeholder+'</span></div>');
+  const vSelectDisplay = $('<div class="vselect-selected-display"><span class="vselect-display-text">'+settings.placeholder+'</span></div>');
   vSelectElm.append(vSelectDisplay);
 
   const vSelectTray = $('<div class="vselect-tray-container"><div class="vselect-tray"></div></div>');
@@ -85,12 +99,16 @@ $.fn.vSelect = function(s) {
     // Append Global checkbox (select all)
     vSelectTray.append(checkAllElm);
 
+    // Check all checkbox handler
     checkAllElm.find('input[type=checkbox]').on('change', function() {
       const elm = $(this);
       const checked = elm.is(":checked");
 
       vSelectElm.find('.vselect-option input[type=checkbox]').prop('checked', checked);
       selectElm.find('option').prop("selected", checked);
+
+      resetOptionsVariable(checked);
+      updateDisplay();
     });
   }
 
@@ -183,26 +201,34 @@ $.fn.vSelect = function(s) {
     }
   });
 
-  // Checkbox on change handler
-  vSelectOptions.find('input[type=checkbox]').on('change', function(){
-    const cbElm = $(this);
-    const checked = cbElm.is(":checked");
-    const type = cbElm.data('type');
+  function updateOptionsVariable(elm, checked) {
+    const type = elm.data('type');
     let index;
     let data;
 
     if (type === 'child') {
-      index = cbElm.data('index').split('-');
+      index = elm.data('index').split('-');
       data = options[parseInt(index[0])].options[parseInt(index[1])];
     } else {
-      index = cbElm.data('index');
+      index = elm.data('index');
       data = options[index];
     }
 
     data.checked = checked;
 
+    updateSelectElm(data);
+  }
+
+  // Checkbox on change handler
+  vSelectOptions.find('input[type=checkbox]').on('change', function(){
+    const cbElm = $(this);
+    const checked = cbElm.is(":checked");
+    const type = cbElm.data('type');
+
     // If not multiSelect, uncheck all other options
     if (!settings.multiSelect) {
+      // Reset all checked state in options variable to false
+      resetOptionsVariable(false);
       vSelectOptions.find('input[type=checkbox]').not(cbElm).each(function(){
         $(this).prop('checked', false);
       });
@@ -212,7 +238,7 @@ $.fn.vSelect = function(s) {
 
     switch (type) {
       case 'solo':
-        updateSelectElm(data);
+        // Do nothing...
 
         break;
 
@@ -222,8 +248,6 @@ $.fn.vSelect = function(s) {
         break;
 
       case 'child':
-        updateSelectElm(data);
-
         if (settings.multiSelect) {
           isAllChildChecked(cbElm);
         }
@@ -234,6 +258,12 @@ $.fn.vSelect = function(s) {
     if (settings.multiSelect && settings.checkAll) {
       isAllOptionsChecked();
     }
+
+    updateOptionsVariable(cbElm, checked);
+
+    console.log('options', options);
+
+    updateDisplay();
   });
 
   // Update option of original Select element
@@ -281,7 +311,11 @@ $.fn.vSelect = function(s) {
       const val = cElm.val();
 
       selectElm.find('option[value='+val+']').prop("selected", checked);
+
+      updateOptionsVariable(cElm, checked);
     });
+
+    updateDisplay();
   }
 
   // Check if is every options is checked or unchecked
@@ -304,6 +338,44 @@ $.fn.vSelect = function(s) {
       $('#vselect-global'+randomId).prop("checked", true);
     } else {
       $('#vselect-global'+randomId).prop("checked", false);
+    }
+  }
+
+  function updateDisplay() {
+    console.log('updateDisplay', options);
+
+    let checkedOptions = [];
+    
+    options.map((option, index) => {
+      if (option.type === 'option') {
+        if (option.type === 'option' && option.checked) {
+          checkedOptions.push(option);
+        }
+      } else {
+        const temp = option.options.map((childOption, index) => {
+          if (childOption.type === 'option' && childOption.checked) {
+            checkedOptions.push(childOption);
+          }
+        });
+      }
+    });
+
+    console.log('checkedOptions', checkedOptions);
+    
+    if (checkedOptions.length > 0) {
+      if (settings.display === 'sum') {
+        vSelectElm.find('.vselect-display-text').text(checkedOptions.length + ' option(s) selected');
+      } else { // settings.display = 'values'
+        let temp = [];
+
+        checkedOptions.map((x, index) => {
+          temp.push(x.label);
+        });
+
+        vSelectElm.find('.vselect-display-text').text(temp.join('; '));
+      }
+    } else {
+      vSelectElm.find('.vselect-display-text').text(settings.placeholder);
     }
   }
 
