@@ -130,7 +130,7 @@ onChange: function(values, options) {}
 
 ## Changelog
 
-### v1.0.2
+### v1.0.3
 - Single selection mode - tray will automatically closed once an option is selected.
 - Added unique id to vselect-container.
 - Bug fixes.
