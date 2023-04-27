@@ -81,7 +81,7 @@ $.fn.vSelect = function(s) {
   }
 
   // Create vSelect element
-  const vSelectElm = $('<div id="vselect'+randomId+'"></div>').insertAfter(selectElm);
+  const vSelectElm = $('<div></div>').insertAfter(selectElm);
   // Add a container class
   vSelectElm.addClass('vselect-container ' + (settings.multiSelect ? 'multi-select' : 'single-select'));
   // Add a random id
