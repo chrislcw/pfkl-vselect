@@ -1,8 +1,6 @@
 import $ from "jquery";
 
 $.fn.vSelect = function(s) {
-  console.log('vSelect');
-
   // Default settings
   let settings = {
     multiSelect: true,
@@ -13,6 +11,7 @@ $.fn.vSelect = function(s) {
     display: 'sum', // sum, values
     trayHeight: '240px', // auto, ###px
     dropdown: true, // fixed
+    'onChange': function(values, options) {}
   };
 
   let checkAllElm;
@@ -26,6 +25,8 @@ $.fn.vSelect = function(s) {
 
   // Original select element
   const selectElm = $(this);
+  selectElm.hide();
+
   // Create a random id
   const randomId = '-' + Math.floor(Math.random() * 1000) + '-' + Math.floor(Math.random() * 1000);
 
@@ -65,8 +66,6 @@ $.fn.vSelect = function(s) {
       });
     }
   });
-
-  console.log('options', options);
 
   // Reset all values in options to true or false
   function resetOptionsVariable(checked) {
@@ -237,6 +236,8 @@ $.fn.vSelect = function(s) {
     data.checked = checked;
 
     updateSelectElm(data);
+
+    settings.onChange(data, options);
   }
 
   // Checkbox on change handler
@@ -280,8 +281,6 @@ $.fn.vSelect = function(s) {
     }
 
     updateOptionsVariable(cbElm, checked);
-
-    console.log('options', options);
 
     updateDisplay();
   });
@@ -362,8 +361,6 @@ $.fn.vSelect = function(s) {
   }
 
   function updateDisplay() {
-    console.log('updateDisplay', options);
-
     let checkedOptions = [];
     
     options.map((option, index) => {
@@ -379,8 +376,6 @@ $.fn.vSelect = function(s) {
         });
       }
     });
-
-    console.log('checkedOptions', checkedOptions);
     
     if (checkedOptions.length > 0) {
       if (settings.display === 'sum') {
