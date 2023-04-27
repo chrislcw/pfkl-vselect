@@ -1,0 +1,27 @@
+{
+  "name": "pfkl-vselect",
+  "version": "1.0.0",
+  "description": "Simple select list replacement for jQuery",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chrislcw/pfkl-vselect"
+  },
+  "keywords": [
+    "jquery",
+    "select",
+    "plugin"
+  ],
+  "author": "Chris",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chrislcw/pfkl-vselect/issues"
+  },
+  "homepage": "https://github.com/chrislcw/pfkl-vselect#readme",
+  "peerDependencies": {
+    "jquery": ">=3.6.0"
+  }
+}

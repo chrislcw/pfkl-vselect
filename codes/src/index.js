@@ -6,7 +6,7 @@ $(function () {
 
   $('#my-select').vSelect({
     checkAllLabel: 'Select all',
-    display: 'values',
+    display: 'sum',
     'onChange': function(values, options) { 
       console.log('onChange values', values);
       console.log('onChange options', options);
@@ -23,12 +23,6 @@ $(function () {
   });
   
   $('#they-select').vSelect({
-    multiSelect: false,
-    display: 'values',
-    dropdown: false,
-        'onChange': function(values, options) { 
-      console.log('onChange values', values);
-      console.log('onChange options', options);
-    }
+    trayHeight: 'auto',
   });
 });
