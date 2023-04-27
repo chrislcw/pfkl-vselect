@@ -81,7 +81,7 @@ $.fn.vSelect = function(s) {
   }
 
   // Create vSelect element
-  const vSelectElm = $('<div></div>').insertAfter(selectElm);
+  const vSelectElm = $('<div id="vselect'+randomId+'"></div>').insertAfter(selectElm);
   // Add a container class
   vSelectElm.addClass('vselect-container ' + (settings.multiSelect ? 'multi-select' : 'single-select'));
   // Add a random id
@@ -240,10 +240,16 @@ $.fn.vSelect = function(s) {
     settings.onChange(data, options);
   }
 
-  // Checkbox on change handler
+  // Checkbox on change handler ///////////////////////////////////////////////////////////////////////////
+  // //////////////////////////////////////////////////////////////////////////////////////////////////////
   vSelectOptions.find('input[type=checkbox]').on('change', function(e){
     const cbElm = $(this);
     const checked = cbElm.is(":checked");
+
+    if (!settings.multiSelect) {
+      vSelectTray.hide();
+      vSelectElm.find('.vselect-tray-toggle').removeClass('active');
+    }
 
     // If single selection only and checked on already checked option, the option will turned to false
     if (!settings.multiSelect && !checked) {
@@ -285,11 +291,6 @@ $.fn.vSelect = function(s) {
         }
 
         break;
-    }
-
-    if (!settings.multiSelect) {
-      vSelectTray.hide();
-      vSelectElm.find('.vselect-tray-toggle').removeClass('active');
     }
 
     if (settings.multiSelect && settings.checkAll) {
