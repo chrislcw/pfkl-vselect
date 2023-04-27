@@ -127,3 +127,10 @@ On change call back function.
 ```
 onChange: function(values, options) {}
 ```
+
+## Changelog
+
+### v1.0.1
+- Single selection mode - tray will automatically closed once an option is selected.
+- Added unique id to vselect-container.
+- Bug fixes.
