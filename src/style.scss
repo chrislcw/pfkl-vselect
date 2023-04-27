@@ -9,52 +9,112 @@
  * @see https://github.com/webpack-contrib/sass-loader#imports
  */
 
+ body {
+  background-color: #FAFAFA;
+ }
+
 .vselect-container {
+  background-color: white;
+
+  .vselect-display-container {
+    position: relative;
+    cursor: pointer;
+
+    &.active {
+      svg {
+        transform: rotate(180deg);
+      }
+    }
+  }
+
   .vselect-display-text {
     display: block;
     white-space: nowrap; /* Prevents text from wrapping to a new line */
     overflow: hidden; /* Hides any overflowing text */
-    text-overflow: ellipsis; 
+    text-overflow: ellipsis;
+    font-weight: 600;
+    padding: 1rem 2rem 1rem 1rem;
+    border: 1px solid #F0F0F0;
   }
-  
+
+  .vselect-collapse-toggle {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 50%;
+    right: 0.5rem;
+    transform: translateY(-50%);
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &.active {
+      svg {
+        transform: rotate(180deg);
+      }
+    }
+  }
+
+  .vselect-tray-container {
+    position: relative;
+    // overflow: hidden;
+
+    .vselect-tray {
+      overflow: auto;
+      padding: 1rem 0 1rem 0;
+      background-color: white;
+      border: 1px solid #F0F0F0;
+
+      &.dropdown {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+      }
+    }
+  }
+
   &.single-select {
     .vselect-option.vselect-option-solo,
     .vselect-option.vselect-option-child {
+      &:hover {
+        background-color: #00ccff11;
+      }
+
+      &.active {
+        background-color: #fc0;
+      }
+
+      &.active:hover {
+        background-color: #fc0;
+      }
+
       label {
         display: block;
         width: 100%;
-
-        &:hover {
-          background-color: #00ccff11;
-        }
-
-        &.active:hover {
-          background-color: #fc0;
-        }
       }
     }
+  }
+}
+
+.vselect-global,
+.vselect-option {
+  padding: 0.25rem 2rem 0.25rem 1rem;
+  display: flex;
+  align-items: center;
+
+  input[type=checkbox] {
+    margin-right: 0.5rem;
   }
 }
 
 .vselect-option {
   &.vselect-option-group {
     position: relative;
-
-    .vselect-group-toggle {
-      position: absolute;
-      top: 50%;
-      right: 0.5rem;
-      transform: translateY(-50%);
-    }
   }
 
   &.vselect-option-child {
     padding-left: 1rem;
-  }
-
-  label {
-    &.active {
-      background-color: #fc0;
-    }
   }
 }

@@ -11,6 +11,8 @@ $.fn.vSelect = function(s) {
     checkAllLabel: 'All',
     expanded: true,
     display: 'sum', // sum, values
+    trayHeight: '240px', // auto, ###px
+    dropdown: true, // fixed
   };
 
   let checkAllElm;
@@ -86,14 +88,32 @@ $.fn.vSelect = function(s) {
   // Add a random id
   vSelectElm.attr('id', 'vselect'+randomId);
   // Append a div to display selected options
-  const vSelectDisplay = $('<div class="vselect-selected-display"><span class="vselect-display-text">'+settings.placeholder+'</span></div>');
+  const vSelectDisplay = $('<div class="vselect-display-container vselect-tray-toggle" data-target="#vselect-tray'+randomId+'"><div class="vselect-selected-display"><span class="vselect-display-text">'+settings.placeholder+'</span></div><div class="vselect-collapse-toggle"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="#202020" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></div></div>');
   vSelectElm.append(vSelectDisplay);
 
-  const vSelectTray = $('<div class="vselect-tray-container"><div class="vselect-tray"></div></div>');
-
+  const vSelectTrayContainer = $('<div class="vselect-tray-container"></div>');
+  // Append tray container
+  vSelectElm.append(vSelectTrayContainer);
+  const vSelectTray = $('<div class="vselect-tray '+(settings.dropdown ? 'dropdown' : '')+'" id="vselect-tray'+randomId+'" style="height: '+settings.trayHeight+'"></div>');
   // Append options tray
-  vSelectElm.append(vSelectTray);
+  vSelectTrayContainer.append(vSelectTray);
 
+  vSelectTray.hide();
+
+  vSelectElm.find('.vselect-tray-toggle').on('click', function() {
+    const toggleElm = $(this);
+    const target = toggleElm.data('target');
+
+    if (toggleElm.hasClass('active')) {
+      toggleElm.removeClass('active');
+      $(target).hide();
+    } else {
+      toggleElm.addClass('active');
+      $(target).show();
+    }
+  });
+
+                                 
   if (settings.multiSelect && settings.checkAll) {
     checkAllElm = $('<div class="vselect-global"><input type="checkbox" id="vselect-global'+randomId+'" data-type="all"><label for="vselect-global'+randomId+'" class="" for="vselect-global">'+settings.checkAllLabel+'</label></div>');
     // Append Global checkbox (select all)
@@ -145,13 +165,13 @@ $.fn.vSelect = function(s) {
     let ogElm;
 
     if (settings.multiSelect) {
-      ogElm = $('<div><input type="checkbox" id="vselect-group-'+group+'" data-group-id="'+group+'" data-index="'+index+'"><label for="vselect-group-'+group+'">'+item.label+'</label><div data-group-id="'+group+'" class="vselect-group-toggle"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="#202020" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>');
+      ogElm = $('<div><input type="checkbox" id="vselect-group-'+group+'" data-group-id="'+group+'" data-index="'+index+'"><label for="vselect-group-'+group+'">'+item.label+'</label><div data-group-id="'+group+'" class="vselect-collapse-toggle vselect-group-toggle"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="#202020" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>');
 
       vSelectTray.append(ogElm);
 
       ogElm.find('input[type=checkbox]').attr('data-type', 'group');
     } else {
-      ogElm = $('<div><label class="vselect-group-label">'+item.label+'</label><div data-group-id="'+group+'" class="vselect-group-toggle"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="#202020" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>');
+      ogElm = $('<div><label class="vselect-group-label">'+item.label+'</label><div data-group-id="'+group+'" class="vselect-collapse-toggle vselect-group-toggle"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="#202020" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>');
 
       vSelectTray.append(ogElm);
     }
@@ -232,8 +252,8 @@ $.fn.vSelect = function(s) {
       vSelectOptions.find('input[type=checkbox]').not(cbElm).each(function(){
         $(this).prop('checked', false);
       });
-      vSelectOptions.find('input[type=checkbox]').next().removeClass('active');
-      cbElm.next().addClass('active');
+      vSelectOptions.find('input[type=checkbox]').parent().removeClass('active');
+      cbElm.parent().addClass('active');
     }
 
     switch (type) {
@@ -273,7 +293,7 @@ $.fn.vSelect = function(s) {
       selectElm.find('option').prop("selected", false);
     }
 
-    selectElm.find('option[value='+data.value+']').prop("selected", data.checked);
+    selectElm.find('option[value="'+data.value+'"]').prop("selected", data.checked);
   }
 
   // Check if is all children of the group is checked

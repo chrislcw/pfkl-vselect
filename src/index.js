@@ -6,17 +6,15 @@ $(function () {
 
   $('#my-select').vSelect({
     checkAllLabel: 'Select all',
+    display: 'values',
   });
   $('#your-select').vSelect({
     multiSelect: false,
     display: 'values',
   });
-
-  $('#btn1').on('click', function(){
-    console.log('v', $('#my-select').val());;
-  });
-
-  $('#btn2').on('click', function(){
-    console.log('v', $('#your-select').val());;
+  $('#they-select').vSelect({
+    multiSelect: false,
+    display: 'values',
+    dropdown: false,
   });
 });
