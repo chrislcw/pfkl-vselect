@@ -130,6 +130,9 @@ onChange: function(values, options) {}
 
 ## Changelog
 
+### v1.0.6
+Bug fix.
+
 ### v1.0.5
 `<option>` accepts disabled property.
 
