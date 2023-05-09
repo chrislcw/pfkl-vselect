@@ -2,10 +2,8 @@ const plugin = require("tailwindcss/plugin");
 
 module.exports = {
   content: [
-    "./layouts/**/*.twig",
-    "./templates/**/*.twig",
+    "./**/*.html",
     "./src/**/*.{js,jsx}",
-    "../../../modules/custom/tema_mod/templates/**/*.twig",
   ],
   // safelist: [
   //   {

@@ -41,7 +41,8 @@ $.fn.vSelect = function(s) {
         type: 'option',
         value: elm.val(),
         label: elm.text(),
-        checked: false
+        checked: false,
+        class: elm.attr('class'),
       });
     } else if (elm[0].nodeName === 'OPTGROUP') {
       let temp = [];
@@ -53,7 +54,8 @@ $.fn.vSelect = function(s) {
           type: 'option',
           value: cElm.val(),
           label: cElm.text(),
-          checked: false
+          checked: false,
+          class: elm.attr('class'),
         })
       });
 
@@ -136,6 +138,10 @@ $.fn.vSelect = function(s) {
     const optElm = $('<div><input type="checkbox" id="vselect-option-'+(group ? group+'-'+(idx === null ? index : index+'-'+idx) : index+randomId)+'" value="'+item.value+'" data-index="'+(idx === null ? index : index+'-'+idx)+'"><label for="vselect-option-'+(group ? group+'-'+(idx === null ? index : index+'-'+idx) : index+randomId)+'">'+item.label+'</label></div>');
     
     vSelectTray.append(optElm);
+
+    if (item.class !== undefined) {
+      optElm.addClass(item.class);
+    }
 
     optElm.addClass('vselect-option');
     optElm.addClass((group ? 'vselect-option-child ' : '') + (group ? group : ''));

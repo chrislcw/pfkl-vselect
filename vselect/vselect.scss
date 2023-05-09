@@ -93,6 +93,9 @@
   input[type="checkbox"] {
     margin-right: 0.5rem;
   }
+
+  &.level1 { padding-left: 2rem; }
+  &.level2 { padding-left: 3rem; }
 }
 
 .vselect-option {

@@ -25,4 +25,10 @@ $(function () {
   $('#they-select').vSelect({
     trayHeight: 'auto',
   });
+
+  $('#countries').vSelect({
+    trayHeight: 'auto',
+    multiSelect: false,
+    display: 'values',
+  });
 });

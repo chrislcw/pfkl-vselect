@@ -130,6 +130,10 @@ onChange: function(values, options) {}
 
 ## Changelog
 
+### v1.0.4
+Any css class added to `<option>` will be included in the vSelect option wrapper.
+Tips: add css class to indent options, to fake sub options for grouping.
+
 ### v1.0.3
 - Single selection mode - tray will automatically closed once an option is selected.
 - Added unique id to vselect-container.

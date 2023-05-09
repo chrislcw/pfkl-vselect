@@ -1,3 +1,7 @@
+// @import "tailwindcss/base";
+// @import "tailwindcss/components";
+// @import "tailwindcss/utilities";
+
 .vselect-container {
   background-color: white;
 
@@ -93,6 +97,9 @@
   input[type="checkbox"] {
     margin-right: 0.5rem;
   }
+
+  &.level1 { padding-left: 2rem; }
+  &.level2 { padding-left: 3rem; }
 }
 
 .vselect-option {
