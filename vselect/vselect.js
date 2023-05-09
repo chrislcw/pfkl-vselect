@@ -25,7 +25,7 @@ $.fn.vSelect = function(s) {
 
   // Original select element
   const selectElm = $(this);
-  selectElm.hide();
+  // selectElm.hide();
 
   // Create a random id
   const randomId = '-' + Math.floor(Math.random() * 1000) + '-' + Math.floor(Math.random() * 1000);
@@ -43,6 +43,7 @@ $.fn.vSelect = function(s) {
         label: elm.text(),
         checked: false,
         class: elm.attr('class'),
+        disabled: elm.attr('disabled'),
       });
     } else if (elm[0].nodeName === 'OPTGROUP') {
       let temp = [];
@@ -56,6 +57,7 @@ $.fn.vSelect = function(s) {
           label: cElm.text(),
           checked: false,
           class: elm.attr('class'),
+          disabled: elm.attr('disabled'),
         })
       });
 
@@ -68,6 +70,8 @@ $.fn.vSelect = function(s) {
       });
     }
   });
+
+  console.log('options', options);
 
   // Reset all values in options to true or false
   function resetOptionsVariable(checked) {
@@ -141,6 +145,11 @@ $.fn.vSelect = function(s) {
 
     if (item.class !== undefined) {
       optElm.addClass(item.class);
+    }
+
+    if (item.disabled === 'disabled') {
+      optElm.find('input[type=checkbox]').attr('disabled', 'true');
+      optElm.css('pointer-events', 'none');
     }
 
     optElm.addClass('vselect-option');

@@ -130,6 +130,9 @@ onChange: function(values, options) {}
 
 ## Changelog
 
+### v1.0.5
+`<option>` accepts disabled property.
+
 ### v1.0.4
 Any css class added to `<option>` will be included in the vSelect option wrapper.
 Tips: add css class to indent options, to fake sub options for grouping.
