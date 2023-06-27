@@ -30,7 +30,7 @@ $.fn.vSelect = function(s) {
 
     // Original select element
     const selectElm = sElm;
-    // selectElm.hide();
+    selectElm.hide();
 
     // Create a random id
     const randomId = '-' + Math.floor(Math.random() * 1000) + '-' + Math.floor(Math.random() * 1000);

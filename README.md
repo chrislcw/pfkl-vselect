@@ -130,6 +130,9 @@ onChange: function(values, options) {}
 
 ## Changelog
 
+### v1.1.0
+Bug fix - hide original select element.
+
 ### v1.0.9
 Fix a bug where initialise by class name is broken.
 
