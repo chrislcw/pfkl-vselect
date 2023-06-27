@@ -130,6 +130,9 @@ onChange: function(values, options) {}
 
 ## Changelog
 
+### v1.0.8
+Enabled preselected options.
+
 ### v1.0.7
 Remove console log.
 

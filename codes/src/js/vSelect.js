@@ -31,10 +31,20 @@ $.fn.vSelect = function(s) {
   const randomId = '-' + Math.floor(Math.random() * 1000) + '-' + Math.floor(Math.random() * 1000);
 
   let options = [];
+  let preSelectedOptions = [];
 
   // Process and store all options
   selectElm.children().each(function(index) {
     const elm = $(this);
+    const preSelected = !!elm.attr("selected");
+
+    if (preSelected) {
+      if (elm[0].nodeName === 'OPTION') {
+        preSelectedOptions.push(elm.attr('value'));
+      } else {
+        preSelectedOptions.push(elm.attr('label'));
+      }
+    }
 
     if (elm[0].nodeName === 'OPTION') {
       options.push({
@@ -50,6 +60,9 @@ $.fn.vSelect = function(s) {
 
       elm.children().each(function(index) {
         const cElm = $(this);
+        const preSelectedC = !!cElm.attr("selected");
+
+        if (preSelectedC) { preSelectedOptions.push(cElm.attr('value')); }
 
         temp.push({
           type: 'option',
@@ -66,7 +79,7 @@ $.fn.vSelect = function(s) {
         value: 0,
         label: elm.attr('label'),
         options: temp,
-        checked: false
+        checked: false,
       });
     }
   });
@@ -177,7 +190,7 @@ $.fn.vSelect = function(s) {
     let ogElm;
 
     if (settings.multiSelect) {
-      ogElm = $('<div><input type="checkbox" id="vselect-group-'+group+'" data-group-id="'+group+'" data-index="'+index+'"><label for="vselect-group-'+group+'">'+item.label+'</label><div data-group-id="'+group+'" class="vselect-collapse-toggle vselect-group-toggle"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="#202020" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>');
+      ogElm = $('<div><input type="checkbox" value="'+ item.label + '" id="vselect-group-'+group+'" data-group-id="'+group+'" data-index="'+index+'"><label for="vselect-group-'+group+'">'+item.label+'</label><div data-group-id="'+group+'" class="vselect-collapse-toggle vselect-group-toggle"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="#202020" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>');
 
       vSelectTray.append(ogElm);
 
@@ -422,6 +435,16 @@ $.fn.vSelect = function(s) {
     } else {
       vSelectElm.find('.vselect-display-text').text(settings.placeholder);
     }
+  }
+
+  // Preselect options
+  if (preSelectedOptions.length > 0) {
+    preSelectedOptions.map((option, index) => {
+      const elm = $('.vselect-option input[type="checkbox"][value="' + option + '"]');
+
+      elm.prop('checked', true);
+      elm.trigger('change');
+    });
   }
 
   return vSelectElm;

@@ -24,6 +24,7 @@ $(function () {
   
   $('#they-select').vSelect({
     trayHeight: 'auto',
+    display: 'values',
   });
 
   $('#countries').vSelect({

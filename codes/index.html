@@ -75,9 +75,11 @@
         multiple
         style="height: 100px; margin-bottom: 1rem"
       >
+        <option value="latte">Americano</option>
         <option value="cappuccino">Cappuccino</option>
         <option value="flat white">Flat White</option>
         <option value="latte">Latte</option>
+        <option value="latte">Mocha</option>
       </select>
     </div>
 
@@ -93,9 +95,13 @@
       <select name="" id="countries">
         <option value="">None</option>
         <option value="Asia" class="font-bold" disabled>Asia</option>
-        <option value="SEA" class="level1 font-semibold">SEA</option>
-        <option value="MY" class="level2">Malaysia</option>
-        <option value="TH" class="level2">Thailand</option>
+        <optgroup label="SEA">SEA
+          <option value="MY" class="level2">Malaysia</option>
+          <option value="SG" class="level2" selected>Singapore</option>
+          <option value="TH" class="level2">Thailand</option>
+        </optgroup>
+        <option value="UK" class="font-bold">United Kingdom</option>
+        <option value="US" class="font-bold">United States</option>
       </select>
     </div>
   </body>
