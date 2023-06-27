@@ -130,6 +130,9 @@ onChange: function(values, options) {}
 
 ## Changelog
 
+### v1.1.1
+Close tray when clicked outside of vSelect container.
+
 ### v1.1.0
 Bug fix - hide original select element.
 

@@ -452,6 +452,14 @@ $.fn.vSelect = function(s) {
       });
     }
 
+    $(document).on('click', function(event) {
+      var target = $(event.target);
+      if (!target.is('#vselect'+randomId) && !target.closest('#vselect'+randomId).length) {
+        vSelectTray.hide();
+        vSelectElm.find('.vselect-tray-toggle').removeClass('active');
+      }
+    });
+    
     return vSelectElm;
   }
 }
