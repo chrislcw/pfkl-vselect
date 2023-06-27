@@ -130,6 +130,9 @@ onChange: function(values, options) {}
 
 ## Changelog
 
+### v1.0.9
+Fix a bug where initialise by class name is broken.
+
 ### v1.0.8
 Enabled preselected options.
 

@@ -1,6 +1,6 @@
 {
   "name": "pfkl-vselect",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Simple select list replacement for jQuery",
   "main": "index.js",
   "scripts": {
