@@ -71,8 +71,6 @@ $.fn.vSelect = function(s) {
     }
   });
 
-  console.log('options', options);
-
   // Reset all values in options to true or false
   function resetOptionsVariable(checked) {
     options.map((x, index) => {

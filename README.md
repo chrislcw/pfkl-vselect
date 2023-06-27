@@ -130,6 +130,9 @@ onChange: function(values, options) {}
 
 ## Changelog
 
+### v1.0.7
+Remove console log.
+
 ### v1.0.6
 Bug fix.
 
