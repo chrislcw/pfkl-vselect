@@ -1,9 +1,7 @@
 import $ from "jquery";
 
 $.fn.vSelect = function(s) {
-  $(this).each(function() {
-    init($(this), s);
-  });
+  let vSelectElms = [];
 
   function init(sElm, s) {
     // Default settings
@@ -166,6 +164,7 @@ $.fn.vSelect = function(s) {
       if (item.disabled === 'disabled') {
         optElm.find('input[type=checkbox]').attr('disabled', 'true');
         optElm.css('pointer-events', 'none');
+        optElm.addClass('vselect-option-disabled');
       }
 
       optElm.addClass('vselect-option');
@@ -461,5 +460,19 @@ $.fn.vSelect = function(s) {
     });
     
     return vSelectElm;
+  }
+
+  $(this).each(function() {
+    vSelectElms.push(init($(this), s));
+  });
+
+  if (vSelectElms.length === 1) {
+    return vSelectElms[0];
+  }
+
+  if (vSelectElms.length > 1) {
+    return vSelectElms;
+  } else {
+    return null;
   }
 }
