@@ -14,6 +14,7 @@ $.fn.vSelect = function(s) {
       display: 'sum', // sum, values
       trayHeight: '240px', // auto, ###px
       dropdown: true, // fixed
+      search: false,
       'onChange': function(values, options) {}
     };
 
@@ -117,7 +118,7 @@ $.fn.vSelect = function(s) {
     // Append options tray
     vSelectTrayContainer.append(vSelectTray);
 
-    vSelectTray.hide();
+    hideTray(vSelectTray);
 
     vSelectElm.find('.vselect-tray-toggle').on('click', function() {
       const toggleElm = $(this);
@@ -125,10 +126,10 @@ $.fn.vSelect = function(s) {
 
       if (toggleElm.hasClass('active')) {
         toggleElm.removeClass('active');
-        $(target).hide();
+        hideTray($(target));
       } else {
         toggleElm.addClass('active');
-        $(target).show();
+        showTray($(target));
       }
     });
 
@@ -277,7 +278,7 @@ $.fn.vSelect = function(s) {
       const checked = cbElm.is(":checked");
 
       if (!settings.multiSelect) {
-        vSelectTray.hide();
+        hideTray(vSelectTray);
         vSelectElm.find('.vselect-tray-toggle').removeClass('active');
       }
 
@@ -407,6 +408,7 @@ $.fn.vSelect = function(s) {
       }
     }
 
+    // Update display with selected values
     function updateDisplay() {
       let checkedOptions = [];
       
@@ -441,6 +443,48 @@ $.fn.vSelect = function(s) {
       }
     }
 
+    // Enable search box
+    if (s.search) {
+      const vSelectSearchBox = $('<div class="vselect-search-box" style="display: none;"></div>');
+      vSelectElm.find('.vselect-display-container').append(vSelectSearchBox);
+
+      const vSelectSearchInput = $('<input type="text" placeholder="Search" class="vselect-search-input" />');
+      vSelectSearchBox.append(vSelectSearchInput);
+
+      // Handling search
+      vSelectSearchInput.on('keyup', function(key) {
+        var value = $(this).val().toLowerCase();
+
+        vSelectElm.find('.vselect-option').filter(function () {
+          $(this).toggle(
+            $(this).find("label").text().toLowerCase().indexOf(value) === 0
+          );
+        });
+      });
+
+      vSelectSearchInput.on('click', function(e) {
+        e.stopPropagation();
+      });
+    }
+
+    // Hide dropdown tray
+    function showTray(tray) {
+      tray.show();
+      if (s.search) {
+        vSelectElm.find('.vselect-search-box').show();
+
+        vSelectElm.find('.vselect-search-input').val('');
+        vSelectElm.find('.vselect-search-input').trigger('keyup');
+        vSelectElm.find('.vselect-search-input').trigger('focus');
+      }
+    }
+    
+    // Hide dropdown tray
+    function hideTray(tray) {
+      tray.hide();
+      if (s.search) { vSelectElm.find('.vselect-search-box').hide(); }
+    }
+
     // Preselect options
     if (preSelectedOptions.length > 0) {
       preSelectedOptions.map((option, index) => {
@@ -451,10 +495,11 @@ $.fn.vSelect = function(s) {
       });
     }
 
+    // Hide dropdown tray when user clicked outside of vSelect
     $(document).on('click', function(event) {
       var target = $(event.target);
       if (!target.is('#vselect'+randomId) && !target.closest('#vselect'+randomId).length) {
-        vSelectTray.hide();
+        hideTray(vSelectTray);
         vSelectElm.find('.vselect-tray-toggle').removeClass('active');
       }
     });
@@ -462,6 +507,7 @@ $.fn.vSelect = function(s) {
     return vSelectElm;
   }
 
+  // Return elements to jQuery
   $(this).each(function() {
     vSelectElms.push(init($(this), s));
   });

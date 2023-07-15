@@ -119,6 +119,16 @@ dropdown: true|false
 
 Default is **true**
 
+#### search
+
+**true**: let user seach option via an search input box, **false**: no search input box.
+
+```
+search: true|false
+```
+
+Default is **false**
+
 #### onChange
 
 On change call back function.
@@ -129,6 +139,9 @@ onChange: function(values, options) {}
 ```
 
 ## Changelog
+
+### v1.2.0
+Added search feature.
 
 ### v1.1.1
 Close tray when clicked outside of vSelect container.

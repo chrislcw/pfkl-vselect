@@ -4,32 +4,10 @@ import './js/vSelect';
 $(function () {
   console.log("Ready");
 
-  $('#my-select').vSelect({
-    checkAllLabel: 'Select all',
-    display: 'sum',
-    'onChange': function(values, options) { 
-      console.log('onChange values', values);
-      console.log('onChange options', options);
-    }
-  });
-
-  $('#your-select').vSelect({
+  $('#database-country').vSelect({
+    trayHeight: '500px',
     multiSelect: false,
     display: 'values',
-        'onChange': function(values, options) { 
-      console.log('onChange values', values);
-      console.log('onChange options', options);
-    }
-  });
-  
-  $('#they-select').vSelect({
-    trayHeight: 'auto',
-    display: 'values',
-  });
-
-  $('#countries').vSelect({
-    trayHeight: 'auto',
-    multiSelect: false,
-    display: 'values',
+    search: true,
   });
 });
