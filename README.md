@@ -129,6 +129,16 @@ search: true|false
 
 Default is **false**
 
+#### searchPosition
+
+**-1**: match string with any position of the label text, **0**: match only from beginning of label text, **Any integer number above 0**: only match position from given number.
+
+```
+searchPosition: -1|0|#
+```
+
+Default is **-1**
+
 #### onChange
 
 On change call back function.
@@ -139,6 +149,9 @@ onChange: function(values, options) {}
 ```
 
 ## Changelog
+
+### v1.2.1
+Added new settings option - searchPosition.
 
 ### v1.2.0
 Added search feature.

@@ -9,5 +9,6 @@ $(function () {
     multiSelect: false,
     display: 'values',
     search: true,
+    searchPosition: -1
   });
 });

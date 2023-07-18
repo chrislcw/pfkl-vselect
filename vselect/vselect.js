@@ -15,6 +15,7 @@ $.fn.vSelect = function(s) {
       trayHeight: '240px', // auto, ###px
       dropdown: true, // fixed
       search: false,
+      searchPosition: -1, // -1, 0, #, ##
       'onChange': function(values, options) {}
     };
 
@@ -455,10 +456,23 @@ $.fn.vSelect = function(s) {
       vSelectSearchInput.on('keyup', function(key) {
         var value = $(this).val().toLowerCase();
 
+        if (value === '') { return; }
+
         vSelectElm.find('.vselect-option').filter(function () {
-          $(this).toggle(
-            $(this).find("label").text().toLowerCase().indexOf(value) === 0
-          );
+          if (s.searchPosition > 0) {
+            $(this).toggle(
+              $(this).find("label").text().toLowerCase().indexOf(value) >= s.searchPosition
+            );
+          } else if (s.searchPosition === 0) {
+            $(this).toggle(
+              $(this).find("label").text().toLowerCase().indexOf(value) === 0
+            );
+          } else {
+            $(this).toggle(
+              $(this).find("label").text().toLowerCase().indexOf(value) > -1
+            );
+          }
+
         });
       });
 
