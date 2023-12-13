@@ -148,7 +148,19 @@ On change call back function.
 onChange: function(values, options) {}
 ```
 
+### Methods
+#### resetOptions
+
+Uncheck/unselect all options.
+
+```
+$('class/id').data('vSelect').resetOptions();
+```
+
 ## Changelog
+
+### v1.2.2
+Added resetOptions method.
 
 ### v1.2.1
 Added new settings option - searchPosition.
