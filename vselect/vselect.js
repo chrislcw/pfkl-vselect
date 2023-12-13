@@ -517,22 +517,27 @@ $.fn.vSelect = function(s) {
         vSelectElm.find('.vselect-tray-toggle').removeClass('active');
       }
     });
+
+    function resetOptions() {
+      const checked = false;
+
+      vSelectElm.find('.vselect-option input[type=checkbox]').prop('checked', checked);
+      selectElm.find('option').prop("selected", checked);
+
+      resetOptionsVariable(checked);
+      updateDisplay();
+    }
     
-    return vSelectElm;
+    return {
+      resetOptions: resetOptions
+    };
   }
 
   // Return elements to jQuery
   $(this).each(function() {
-    vSelectElms.push(init($(this), s));
+    const instance = init($(this), s);
+    $(this).data('vSelect', instance);
   });
 
-  if (vSelectElms.length === 1) {
-    return vSelectElms[0];
-  }
-
-  if (vSelectElms.length > 1) {
-    return vSelectElms;
-  } else {
-    return null;
-  }
+  return this;
 }
